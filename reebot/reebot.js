@@ -29,16 +29,11 @@ client.on('message', (message) => {
 
                 fs.writeFile('../config.json', JSON.stringify(config, null, 4), (err) => console.error);
 
-                message.channel.send('Got it!');
+                message.channel.send('Got it! New LAN registered');
                 break;
         
             case 'ozlanwhen' :
-                const lanName = config.lanName;
-                const lanStart = config.lanStart;
-                const lanEnd = config.lanEnd;
-                const lanMonth = config.lanMonth;
-
-                message.reply(`The next OzLAN is ${lanName}, taking place from ${lanStart} to ${lanEnd} of ${lanMonth}.`);
+                message.reply(`The next OzLAN is ${config.lanName}, taking place from ${config.lanStart} to ${config.lanEnd} of ${config.lanMonth}.`);
                 break;
        }
     }
