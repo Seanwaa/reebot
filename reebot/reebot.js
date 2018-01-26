@@ -8,10 +8,10 @@ client.on('ready', () => {
 });
 
 // the 'commands' folder is looped over to associate the event with the appropriate event file.
-fs.readdir('./events/', (err, files) => {
+fs.readdir('../events/', (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
-        let eventFunction = require(`./events/${file}`);
+        let eventFunction = require(`../events/${file}`);
         let eventName = file.split('.')[0];
 
         // passes arguments to command accessed from file.
@@ -30,7 +30,7 @@ client.on('message', (message) => {
 
     try {
         // needs to be secured
-        let commandFile = require(`./commands/${command}.js`);
+        let commandFile = require(`../commands/${command}.js`);
         commandFile.run(client, message, args);
     } catch (err) {
         console.error(err);
