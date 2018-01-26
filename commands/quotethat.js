@@ -19,6 +19,7 @@ exports.run = (client, message, args) => {
 
     const quoteText = `${quote} - ${author}, ${timestamp}.`
 
+    //improve error handling
     try {
         fs.createReadStream('quotetmp.js').pipe(fs.createWriteStream(`${name}.js`));
 
