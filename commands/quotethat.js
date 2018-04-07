@@ -1,21 +1,16 @@
 const fs = require('fs');
-const request = require('request');
 
 exports.run = (client, message, args) => {
     const name = args[0];
-    const url = `http://discordapp.com/api/channels/${message.channel_id}/messages?before=${message.id}&limit=1`;
-
-    let response;
-    let body;
+    const msgid = message.channel.lastMessageID;
     
-    request(url, function (error, response, body) {
-        this.response = response;
-        this.body = body;
+    message.channel.messages.fetch({before: `${msgid}`, limit: 1}).then(messages => {
+        const prevMsg = messages.first();
     });
 
-    const quote = body[0].content;
-    const timestamp = body[0].timestamp.toISOString().split(T);
-    const author = body[0].author.username;
+    const quote = prevMsg.content;
+    const timestamp = prevMsg.timestamp.toISOString().split(T);
+    const author = prevMsg.author.username;
 
     const quoteText = `${quote} - ${author}, ${timestamp}.`
 
@@ -28,7 +23,7 @@ exports.run = (client, message, args) => {
                 console.error(err);
             }
             
-            let result = data.replace(/'**REPLACE**'/g, quoteText);
+            let result = data.replace(/#~'**REPLACE**'/g, quoteText);
 
             fs.writeFile(`${name}.js`, result, 'utf8', function(err) {
                 if (err) {

@@ -1,7 +1,31 @@
+//Discord
 const Discord = require('discord.js');
 const client = new Discord.Client();
+
+//MongoDB
+const MongoClient = require('mongodb').MongoClient;
+const dbUrl = config.dbUrl;
+const connection = `mongodb://${dbUrl}`;
+const dbName = config.dbName;
+
+//File System
 const fs = require('fs');
+
+//Congifuration
 const config = require('../config.json');
+
+//Utilites
+const assert = require('assert');
+
+//TODO: abstract to db management.
+MongoClient.connect(url, function(err, client) {
+    assert.equal(null, err);
+    console.log("Connected to MongoDB Successfully");
+
+    const db = client.db(dbName);
+
+    client.close();
+});
 
 client.on('ready', () => {
     console.log('I am ready!');
@@ -26,7 +50,7 @@ client.on('message', (message) => {
     if (!message.content.startsWith(config.prefix) || message.author.bot) return;
     
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
-    const command = args.shift().toLowercase();
+    const command = args.shift().toLowerCase();
 
     try {
         // needs to be secured
